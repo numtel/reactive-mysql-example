@@ -14,6 +14,8 @@ $ cd reactive-mysql-example
 $ npm install
 # Update MySQL configuation
 $ vim settings.js
+# Add example data to MySQL server
+$ mysql < example.sql
 # Start server on port 5000
 $ node index.js
 ```
