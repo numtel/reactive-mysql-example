@@ -12,13 +12,18 @@ sock.onmessage = function(e) {
     case 'init':
       results = msg.data.slice();
       break;
-    case 'added':
-    case 'changed':
-      results[msg.index] = msg.data;
-      break;
-    case 'removed':
-      // Results are always removed from end
-      results.pop();
+    case 'diff':
+      msg.data.forEach(function(diffItem){
+       switch(diffItem[0]){
+        case 'added':
+        case 'changed':
+          results[diffItem.pop()] = diffItem.pop();
+          break;
+        case 'removed':
+          // Results are always removed from end
+          results.pop();
+       }
+      });
   }
   scoreList.setProps({ results: results });
 };

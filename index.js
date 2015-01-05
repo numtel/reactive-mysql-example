@@ -20,23 +20,14 @@ var connected = [];
 // Initialze result set
 var results = db.select('select * from players order by score desc', [ {
   table: 'players'
-} ]);
-
-// Result set event handlers
-['added', 'changed', 'removed'].forEach(function(eventName){
-  // `newRow` argument only provided on `changed` event
-  results.on(eventName, function(/* row, [newRow,] index */){
-    var msg = JSON.stringify({
-      type: eventName,
-      // Row data is always the second from last argument
-      data: arguments[arguments.length - 2],
-      // Index is always the last argument
-      index: arguments[arguments.length - 1]
-    });
-    // Send change to all clients
-    connected.forEach(function(conn){
-      conn.write(msg);
-    });
+} ]).on('diff', function(diff){
+  var msg = JSON.stringify({
+    type: 'diff',
+    data: diff
+  });
+  // Send change to all clients
+  connected.forEach(function(conn){
+    conn.write(msg);
   });
 });
 
