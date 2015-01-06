@@ -34,3 +34,17 @@ function incrementScore(id) {
     id: id
   }));
 }
+
+function deletePlayer(id) {
+  sock.send(JSON.stringify({
+    type: 'delete',
+    id: id
+  }));
+}
+
+function insertPlayer(name) {
+  sock.send(JSON.stringify({
+    type: 'insert',
+    name: name
+  }));
+}

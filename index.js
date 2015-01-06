@@ -9,7 +9,7 @@ var sockOptions = {
 };
 
 // Initialize components
-var db = new LiveSelect(dbSettings);
+var liveDb = new LiveSelect(dbSettings);
 var app = express();
 var server = http.createServer(app);
 var sock = sockjs.createServer(sockOptions);
@@ -18,7 +18,7 @@ var sock = sockjs.createServer(sockOptions);
 var connected = [];
 
 // Initialze result set
-var results = db.select('select * from players order by score desc', [ {
+var results = liveDb.select('select * from players order by score desc', [ {
   table: 'players'
 } ]).on('diff', function(diff){
   var msg = JSON.stringify({
@@ -27,7 +27,10 @@ var results = db.select('select * from players order by score desc', [ {
   });
   // Send change to all clients
   connected.forEach(function(conn){
-    conn.write(msg);
+    // Send each asynchronously to prevent blocking the event loop
+    setTimeout(function(){
+      conn.write(msg);
+    }, 0);
   });
 });
 
@@ -48,9 +51,23 @@ sock.on('connection', function(conn) {
       case 'increment':
         var id = parseInt(data.id, 10);
         if(id > 0){
-          db.db.query('UPDATE players SET score=score+5 WHERE id=' + id);
+          liveDb.db.query('UPDATE players SET score=score+1 WHERE id=' +
+                      liveDb.db.escape(id));
         }
         break;
+      case 'delete':
+        var id = parseInt(data.id, 10);
+        if(id > 0){
+          liveDb.db.query('DELETE FROM players WHERE id=' + 
+                      liveDb.db.escape(id));
+        }
+        break;
+      case 'insert':
+        var name = String(data.name);
+        if(name.length > 0 && name.length < 45){
+          liveDb.db.query('INSERT INTO players (`name`, `score`) VALUES (' +
+                      liveDb.db.escape(name) + ', 0)');
+        }
     }
   });
 

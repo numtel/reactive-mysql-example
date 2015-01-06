@@ -1,8 +1,17 @@
 # Reactive MySQL example application
 
-Using [Express](http://expressjs.org), [SockJS](http://sockjs.org), and the [mysql-live-select](https://github.com/numtel/mysql-live-select) NPM Packages as well as the [React Front-End Framework](http://reactjs.org), this example program builds a reactive scoreboard. Click on a player to select and then click on the arrow to increment their score.
+A reactive scoreboard built using the following Javascript components:
+
+* [mysql-live-select](https://github.com/numtel/mysql-live-select) - Provide events on `SELECT` statement result set updates
+* [Express](http://expressjs.com) - Web framework
+* [SockJS](http://sockjs.org) - WebSocket emulation
+* [React](http://reactjs.org) - User interface library
+
+Click on a player to select and then click on the arrow to increment their score.
 
 ![Demo action GIF](docs/reactive-demo.gif)
+
+Insert, increment and delete operations are latency-compensated.
 
 ## Installation
 
