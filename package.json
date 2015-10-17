@@ -1,6 +1,6 @@
 {
   "name": "mysql-example",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Example showing reactive MySQL",
   "main": "index.js",
   "scripts": {
@@ -15,9 +15,8 @@
   "author": "Ben Green <ben@latenightsketches.com> (http://github.com/numtel)",
   "license": "MIT",
   "dependencies": {
-    "ddp": "^0.9.4",
-    "express": "^4.10.6",
-    "mysql-live-select": "0.0.11",
-    "sockjs": "^0.3.11"
+    "express": "^4.13.3",
+    "mysql-live-select": "1.0.3",
+    "sockjs": "^0.3.15"
   }
 }

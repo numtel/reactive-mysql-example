@@ -20,17 +20,14 @@ var connected = [];
 // Initialze result set
 var results = liveDb.select('select * from players order by score desc', [ {
   table: 'players'
-} ]).on('diff', function(diff){
+} ]).on('update', function(diff, data){
   var msg = JSON.stringify({
     type: 'diff',
     data: diff
   });
   // Send change to all clients
   connected.forEach(function(conn){
-    // Send each asynchronously to prevent blocking the event loop
-    setTimeout(function(){
-      conn.write(msg);
-    }, 0);
+    conn.write(msg);
   });
 });
 

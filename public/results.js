@@ -13,17 +13,8 @@ sock.onmessage = function(e) {
       results = msg.data.slice();
       break;
     case 'diff':
-      msg.data.forEach(function(diffItem){
-       switch(diffItem[0]){
-        case 'added':
-        case 'changed':
-          results[diffItem.pop()] = diffItem.pop();
-          break;
-        case 'removed':
-          // Results are always removed from end
-          results.pop();
-       }
-      });
+      results = window.applyDiff(results, msg.data);
+      break;
   }
   scoreList.setProps({ results: results });
 };
