@@ -21,7 +21,7 @@ Installation requires configuring a MySQL server to output a binary log. See the
 $ git clone https://github.com/numtel/reactive-mysql-example.git
 $ cd reactive-mysql-example
 $ npm install
-# Update MySQL configuation
+# Update MySQL configuration
 $ vim settings.js
 # Add example data to MySQL server
 $ mysql < example.sql
